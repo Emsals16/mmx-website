@@ -1,270 +1,826 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>MediMetaX</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>MediMetaX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-body{
-font-family: Arial, sans-serif;
-background:#0a0a0a;
-color:white;
-margin:0;
-padding:0;
-text-align:center;
-}
+  <style>
+    :root{
+      --bg:#05070b;
+      --bg-soft:#0b1118;
+      --bg-card:#0f1621;
+      --line:rgba(255,255,255,0.08);
+      --text:#f5f7fb;
+      --muted:#b7c0cc;
+      --muted-2:#8f99a8;
+      --cyan:#2de2e6;
+      --blue:#00c8ff;
+      --gold:#facc15;
+      --shadow:0 0 30px rgba(0, 200, 255, 0.08);
+      --radius:22px;
+      --max:1180px;
+    }
 
-.hero{
-padding:120px 20px;
-}
+    *{
+      box-sizing:border-box;
+    }
 
-h1{
-font-size:48px;
-}
+    html{
+      scroll-behavior:smooth;
+    }
 
-p{
-font-size:20px;
-max-width:700px;
-margin:auto;
-line-height:1.6;
-color:#bdbdbd;
-}
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top center, rgba(0,200,255,0.12), transparent 24%),
+        radial-gradient(circle at 20% 0%, rgba(45,226,230,0.08), transparent 18%),
+        linear-gradient(180deg, #04060a 0%, #070b12 35%, #05070b 100%);
+      color:var(--text);
+    }
 
-button{
-margin-top:30px;
-padding:14px 30px;
-font-size:16px;
-background:#facc15;
-border:none;
-border-radius:8px;
-cursor:pointer;
-}
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
 
-.section{
-padding:80px 20px;
-}
+    .container{
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
+    }
 
-.footer{
-padding:40px;
-font-size:14px;
-color:#888;
-}
-  .contact-form{
-max-width:700px;
-margin:30px auto 0 auto;
-display:flex;
-flex-direction:column;
-gap:14px;
-}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter: blur(12px);
+      background:rgba(5,7,11,0.72);
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
 
-.contact-form input,
-.contact-form select,
-.contact-form textarea{
-width:100%;
-padding:14px 16px;
-font-size:16px;
-border-radius:10px;
-border:1px solid #333;
-background:#111;
-color:white;
-box-sizing:border-box;
-}
+    .topbar-inner{
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
 
-.contact-form input::placeholder,
-.contact-form textarea::placeholder{
-color:#888;
-}
+    .brand-wrap{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
 
-.contact-form select{
-color:#aaa;
-}
+    .brand-wrap img{
+      width:42px;
+      height:42px;
+      object-fit:cover;
+      border-radius:12px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 0 24px rgba(0,200,255,0.18);
+    }
 
-.contact-form button{
-margin-top:10px;
-padding:14px 30px;
-font-size:16px;
-background:#facc15;
-border:none;
-border-radius:10px;
-cursor:pointer;
-color:black;
-font-weight:600;
-}
-</style>
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
 
+    .brand-name{
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:0.4px;
+      color:#fff;
+    }
+
+    .brand-sub{
+      font-size:12px;
+      color:var(--muted-2);
+      letter-spacing:0.2px;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .nav a{
+      font-size:14px;
+      color:var(--muted);
+      transition:0.2s ease;
+    }
+
+    .nav a:hover{
+      color:#fff;
+    }
+
+    .hero{
+      padding:84px 0 72px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:42px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border:1px solid rgba(45,226,230,0.18);
+      border-radius:999px;
+      background:rgba(45,226,230,0.06);
+      color:#dffcff;
+      font-size:13px;
+      letter-spacing:0.2px;
+      margin-bottom:22px;
+    }
+
+    .hero h1{
+      margin:0 0 18px;
+      font-size:clamp(42px, 7vw, 86px);
+      line-height:1.02;
+      letter-spacing:-1.8px;
+      font-weight:800;
+      color:#fff;
+      max-width:860px;
+    }
+
+    .hero p{
+      margin:0;
+      max-width:760px;
+      font-size:clamp(18px, 2.2vw, 24px);
+      line-height:1.65;
+      color:var(--muted);
+    }
+
+    .hero-actions{
+      margin-top:28px;
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:50px;
+      padding:0 22px;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:700;
+      transition:0.2s ease;
+      border:1px solid transparent;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:var(--gold);
+      color:#111;
+      box-shadow:0 10px 30px rgba(250, 204, 21, 0.16);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-secondary{
+      background:transparent;
+      color:#fff;
+      border-color:rgba(255,255,255,0.12);
+    }
+
+    .btn-secondary:hover{
+      background:rgba(255,255,255,0.04);
+    }
+
+    .hero-panel{
+      position:relative;
+      padding:28px;
+      border-radius:28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .hero-panel::before{
+      content:"";
+      position:absolute;
+      inset:-40% auto auto -20%;
+      width:280px;
+      height:280px;
+      background:radial-gradient(circle, rgba(0,200,255,0.18), transparent 62%);
+      pointer-events:none;
+    }
+
+    .hero-logo{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:340px;
+      border-radius:22px;
+      background:
+        radial-gradient(circle at center, rgba(0,200,255,0.16), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.06);
+    }
+
+    .hero-logo img{
+      width:min(320px, 72%);
+      max-width:100%;
+      border-radius:24px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.05),
+        0 0 40px rgba(0,200,255,0.16);
+    }
+
+    .hero-stats{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+    }
+
+    .stat{
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:rgba(255,255,255,0.02);
+      text-align:left;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:14px;
+      color:#fff;
+      margin-bottom:6px;
+    }
+
+    .stat span{
+      display:block;
+      font-size:12px;
+      line-height:1.5;
+      color:var(--muted-2);
+    }
+
+    .section{
+      padding:74px 0;
+    }
+
+    .section.alt{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border-top:1px solid rgba(255,255,255,0.04);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+
+    .section-head{
+      max-width:900px;
+      margin:0 auto 24px;
+      text-align:center;
+    }
+
+    .section-kicker{
+      display:inline-block;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:1.6px;
+      color:var(--cyan);
+      margin-bottom:14px;
+    }
+
+    .section h2{
+      margin:0 0 16px;
+      font-size:clamp(30px, 4vw, 48px);
+      line-height:1.12;
+      color:#fff;
+    }
+
+    .section .lead{
+      margin:0 auto;
+      max-width:920px;
+      font-size:20px;
+      line-height:1.75;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .text-block{
+      max-width:980px;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    .text-block p{
+      margin:0 0 18px;
+      font-size:20px;
+      line-height:1.85;
+      color:var(--muted);
+    }
+
+    .text-block p:last-child{
+      margin-bottom:0;
+    }
+
+    .cards{
+      margin-top:34px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:22px;
+    }
+
+    .cards.four{
+      grid-template-columns:repeat(2, 1fr);
+    }
+
+    .card{
+      position:relative;
+      padding:26px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      top:-60px;
+      right:-40px;
+      width:160px;
+      height:160px;
+      background:radial-gradient(circle, rgba(45,226,230,0.12), transparent 65%);
+      pointer-events:none;
+    }
+
+    .card h3{
+      margin:0 0 12px;
+      font-size:24px;
+      color:#fff;
+    }
+
+    .card p{
+      margin:0;
+      font-size:17px;
+      line-height:1.75;
+      color:var(--muted);
+      text-align:left;
+    }
+
+    .contact-wrap{
+      max-width:980px;
+      margin:0 auto;
+      text-align:center;
+    }
+
+    .contact-wrap p{
+      margin:0 auto 24px;
+      max-width:860px;
+      font-size:20px;
+      line-height:1.8;
+      color:var(--muted);
+    }
+
+    .contact-form{
+      max-width:860px;
+      margin:32px auto 0;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .contact-form .full{
+      grid-column:1 / -1;
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea{
+      width:100%;
+      padding:16px 18px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      color:#fff;
+      font-size:16px;
+      outline:none;
+      transition:0.2s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form select:focus,
+    .contact-form textarea:focus{
+      border-color:rgba(0,200,255,0.35);
+      box-shadow:0 0 0 3px rgba(0,200,255,0.08);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder{
+      color:var(--muted-2);
+    }
+
+    .contact-form select{
+      color:var(--muted);
+    }
+
+    .contact-form textarea{
+      min-height:150px;
+      resize:vertical;
+    }
+
+    .contact-form button{
+      grid-column:1 / -1;
+      min-height:56px;
+      border:none;
+      border-radius:16px;
+      background:var(--gold);
+      color:#111;
+      font-size:17px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 10px 30px rgba(250, 204, 21, 0.16);
+    }
+
+    .footer{
+      padding:32px 0 56px;
+      border-top:1px solid rgba(255,255,255,0.05);
+      text-align:center;
+    }
+
+    .footer p{
+      margin:0;
+      font-size:14px;
+      line-height:1.8;
+      color:var(--muted-2);
+    }
+
+    @media (max-width: 1080px){
+      .hero-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero-panel{
+        order:-1;
+      }
+
+      .cards{
+        grid-template-columns:1fr;
+      }
+
+      .cards.four{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 720px){
+      .topbar-inner{
+        min-height:68px;
+      }
+
+      .nav{
+        display:none;
+      }
+
+      .hero{
+        padding:62px 0 54px;
+      }
+
+      .hero h1{
+        letter-spacing:-1px;
+      }
+
+      .hero p,
+      .section .lead,
+      .text-block p,
+      .contact-wrap p{
+        font-size:18px;
+      }
+
+      .hero-stats{
+        grid-template-columns:1fr;
+      }
+
+      .contact-form{
+        grid-template-columns:1fr;
+      }
+
+      .contact-form .full,
+      .contact-form button{
+        grid-column:auto;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="hero">
-<img src="MediMetaXclean.jpg" alt="MediMetaX Logo" style="width:120px; margin-bottom:20px;">
-<h1>MediMetaX</h1>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-wrap">
+        <img src="MediMetaXclean.jpg" alt="MediMetaX logo">
+        <div class="brand-text">
+          <div class="brand-name">MediMetaX™</div>
+          <div class="brand-sub">Digital Health Infrastructure</div>
+        </div>
+      </div>
 
-<h1>Smart Governance. Global Health Intelligence.</h1>
+      <div class="nav">
+        <a href="#why">Why MMX</a>
+        <a href="#serves">Who It Serves</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#impact">Impact</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
 
-<p>
-Strategic digital infrastructure connecting governments, insurers and healthcare systems 
-through secure, interoperable and traceable health data.
-</p>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Global-ready • Interoperable • Traceable</div>
 
+        <h1>Smart Governance. Global Health Intelligence.</h1>
 
-</div>
+        <p>
+          Strategic digital infrastructure connecting governments, insurers and
+          healthcare systems through secure, interoperable and traceable health data.
+        </p>
 
-<div class="section">
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">Request Strategic Meeting</a>
+          <a class="btn btn-secondary" href="#why">Explore the Platform</a>
+        </div>
+      </div>
 
-<h2>Why MediMetaX</h2>
+      <div class="hero-panel">
+        <div class="hero-logo">
+          <img src="MediMetaXclean.jpg" alt="MediMetaX symbol">
+        </div>
 
-<p>
-Healthcare systems around the world continue to face structural challenges caused by fragmented data, limited interoperability and inefficient coordination between institutions. Governments, insurers and healthcare providers often operate with disconnected information systems that make transparency, strategic decision-making and operational efficiency difficult to achieve.
-</p>
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>Governance-first</strong>
+            <span>Built for institutional oversight, trust and operational clarity.</span>
+          </div>
+          <div class="stat">
+            <strong>Global vision</strong>
+            <span>Designed for multilingual and cross-border health coordination.</span>
+          </div>
+          <div class="stat">
+            <strong>Modern transition</strong>
+            <span>Supports progress without forcing disruptive system replacement.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<p>
-MediMetaX introduces a modern digital infrastructure designed to unify health data governance, enable secure interoperability and provide traceable coordination across complex healthcare ecosystems. By connecting institutions through a shared technological foundation, MediMetaX helps strengthen system oversight, operational clarity and long-term digital transformation.
-</p>
+  <section class="section" id="why">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Why MediMetaX</div>
+        <h2>Built to solve the structural fractures of healthcare data</h2>
+      </div>
 
-<p>
-Beyond institutional efficiency, MediMetaX also contributes to improving the healthcare experience for patients and professionals by enabling more reliable information flows, clearer access to medical data and better continuity of care across the system.
-</p>
-<p>
-MediMetaX introduces a modern digital infrastructure designed to unify health data governance, enable secure interoperability and provide traceable coordination across complex healthcare ecosystems. By connecting institutions through a shared technological foundation, MediMetaX helps strengthen system oversight, operational clarity and long-term health system digital transformation
-</p>
+      <div class="text-block">
+        <p>
+          Healthcare systems around the world continue to face structural challenges
+          caused by fragmented data, limited interoperability and inefficient
+          coordination between institutions. Governments, insurers and healthcare
+          providers often operate with disconnected information systems that make
+          transparency, strategic decision-making and operational efficiency difficult to achieve.
+        </p>
 
-<p>
-Beyond institutional efficiency, MediMetaX also contributes to improving the healthcare experience for patients and professionals by enabling more reliable information flows, clearer access to medical data and better continuity of care across the system.
-</p>
-</div>
+        <p>
+          MediMetaX introduces a modern digital infrastructure designed to unify
+          health data governance, enable secure interoperability and provide traceable
+          coordination across complex healthcare ecosystems. By connecting institutions
+          through a shared technological foundation, MediMetaX helps strengthen system
+          oversight, operational clarity and long-term health system digital transformation.
+        </p>
 
+        <p>
+          Beyond institutional efficiency, MediMetaX also contributes to improving
+          the healthcare experience for patients and professionals by enabling more
+          reliable information flows, clearer access to medical data and better
+          continuity of care across the system.
+        </p>
+      </div>
+    </div>
+  </section>
 
-<div class="section">
+  <section class="section alt" id="serves">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Who It Serves</div>
+        <h2>Designed for the institutions that govern, finance and deliver care</h2>
+        <p class="lead">
+          MediMetaX is built for modern healthcare systems that require stronger coordination,
+          more trusted information flows and scalable digital infrastructure.
+        </p>
+      </div>
 
-<h2>Who It Serves</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Governments</h3>
+          <p>
+            Strengthen oversight, public health coordination, national governance
+            and institutional visibility across the healthcare system.
+          </p>
+        </div>
 
-<p>
-MediMetaX is built for the institutions responsible for governing, financing,
-delivering and coordinating healthcare in modern societies.
-</p>
+        <div class="card">
+          <h3>Insurance Companies</h3>
+          <p>
+            Improve traceability, transparency, decision support and fraud prevention
+            through better coordination of healthcare information.
+          </p>
+        </div>
 
-<p>
-<b>Governments</b> can strengthen oversight, digital governance and public health coordination.
-<b>Insurance companies</b> can improve transparency, traceability and fraud prevention.
-<b>Hospitals, clinics and healthcare networks and digital health providers</b> can operate with more reliable,
-interoperable and complete health information across the continuum of care.
-</p>
+        <div class="card">
+          <h3>Healthcare Providers</h3>
+          <p>
+            Enable hospitals, clinics and healthcare networks to operate with more
+            reliable, connected and complete health information across the continuum of care.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<p>
-By connecting these actors through a shared digital infrastructure,
-MediMetaX also helps create a more transparent, responsive and patient-centered
-healthcare experience.
-</p>
-<div class="section">
+  <section class="section" id="capabilities">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Core Capabilities</div>
+        <h2>Institutional capability without unnecessary technical exposure</h2>
+        <p class="lead">
+          MediMetaX provides a modern digital foundation that enables institutions
+          to coordinate, manage and govern healthcare information in secure and interoperable environments.
+        </p>
+      </div>
 
-<h2>Core Capabilities</h2>
+      <div class="cards four">
+        <div class="card">
+          <h3>Secure Governance</h3>
+          <p>
+            Support stronger institutional control, trusted data stewardship and
+            responsible digital health governance across complex healthcare environments.
+          </p>
+        </div>
 
-<p>
-MediMetaX provides a modern digital foundation that enables institutions to coordinate, manage and govern healthcare information in a secure and interoperable environment.
-</p>
+        <div class="card">
+          <h3>Interoperable Exchange</h3>
+          <p>
+            Enable more coordinated information flows across institutions,
+            helping systems work together instead of remaining digitally isolated.
+          </p>
+        </div>
 
-<p>
-The platform supports health system modernization through secure data governance, interoperable information exchange and traceable operational processes across institutions.
-</p>
+        <div class="card">
+          <h3>Traceable Operations</h3>
+          <p>
+            Improve visibility, accountability and operational clarity across healthcare
+            processes that require trust, validation and transparency.
+          </p>
+        </div>
 
-<p>
-Designed to operate within complex healthcare environments, MediMetaX can integrate with existing health information systems while enabling a progressive transition toward more coordinated and intelligent digital health ecosystems.
-</p>
+        <div class="card">
+          <h3>Legacy System Transition</h3>
+          <p>
+            Integrate with existing infrastructures while supporting a gradual evolution
+            toward more coordinated and intelligent healthcare ecosystems.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</div>
-</div>
-  <h2>Why MediMetaX Is Different</h2>
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Why It’s Different</div>
+        <h2>A flexible and globally minded infrastructure approach</h2>
+      </div>
 
-<p>
-MediMetaX is designed as a new generation digital health infrastructure.
-Unlike many systems that operate in isolation or require disruptive
-institutional overhauls, MediMetaX enables a more flexible and realistic
-path toward modern healthcare coordination.
-</p>
+      <div class="text-block">
+        <p>
+          MediMetaX is designed as a new generation digital health infrastructure.
+          Unlike many systems that operate in isolation or require disruptive
+          institutional overhauls, MediMetaX enables a more flexible and realistic
+          path toward modern healthcare coordination.
+        </p>
 
-<p>
-The platform can integrate with existing health information systems while
-also supporting the gradual replacement of outdated technologies when
-institutions decide to modernize. This approach allows healthcare systems
-to evolve without operational disruption or institutional risk.
-</p>
+        <p>
+          The platform can integrate with existing health information systems while
+          also supporting the gradual replacement of outdated technologies when
+          institutions decide to modernize. This approach allows healthcare systems
+          to evolve without operational disruption or institutional risk.
+        </p>
 
-<p>
-Built with a global vision, MediMetaX is designed to support multilingual
-environments, cross-border health coordination and compliance with major
-international data protection and digital governance frameworks.
-</p>
+        <p>
+          Built with a global vision, MediMetaX is designed to support multilingual
+          environments, cross-border health coordination and compliance with major
+          international data protection and digital governance frameworks.
+        </p>
 
-<p>
-This combination of technological flexibility, institutional governance and
-global interoperability positions MediMetaX as a strategic foundation for
-modern healthcare systems.
-</p>
-<div class="section">
+        <p>
+          This combination of technological flexibility, institutional governance and
+          global interoperability positions MediMetaX as a strategic foundation for
+          modern healthcare systems.
+        </p>
+      </div>
+    </div>
+  </section>
 
-<h2>Social & Institutional Impact</h2>
+  <section class="section" id="impact">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Social & Institutional Impact</div>
+        <h2>Technology that strengthens systems and improves real-world care</h2>
+      </div>
 
-<p>
-Beyond institutional efficiency, MediMetaX contributes to building healthcare
-systems that are more reliable, transparent and responsive to the people
-they serve.
-</p>
+      <div class="text-block">
+        <p>
+          Beyond institutional efficiency, MediMetaX contributes to building healthcare
+          systems that are more reliable, transparent and responsive to the people they serve.
+        </p>
 
-<p>
-By enabling secure and validated access to essential medical information,
-MediMetaX helps healthcare professionals make faster and safer decisions,
-improving continuity of care and reducing the risks associated with fragmented
-or incomplete patient records.
-</p>
+        <p>
+          By enabling secure and validated access to essential medical information,
+          MediMetaX helps healthcare professionals make faster and safer decisions,
+          improving continuity of care and reducing the risks associated with fragmented
+          or incomplete patient records.
+        </p>
 
-<p>
-In a world where people increasingly move, travel and receive care across
-different regions and countries, MediMetaX helps institutions support more
-timely and coordinated medical attention by allowing critical health
-information to be securely available when and where it is needed.
-</p>
+        <p>
+          In a world where people increasingly move, travel and receive care across
+          different regions and countries, MediMetaX helps institutions support more
+          timely and coordinated medical attention by allowing critical health information
+          to be securely available when and where it is needed.
+        </p>
 
-<p>
-For healthcare institutions and insurers, this also translates into stronger
-public trust, better service quality and the ability to offer a more modern
-and patient-centered healthcare experience.
-</p>
+        <p>
+          For healthcare institutions and insurers, this also translates into stronger
+          public trust, better service quality and the ability to offer a more modern
+          and patient-centered healthcare experience.
+        </p>
+      </div>
+    </div>
+  </section>
 
-</div>
-<div class="section">
+  <section class="section alt" id="contact">
+    <div class="container">
+      <div class="contact-wrap">
+        <div class="section-kicker">Request Strategic Meeting</div>
+        <h2>Start the institutional conversation</h2>
+        <p>
+          If your institution is exploring secure, interoperable and traceable health
+          data infrastructure, MediMetaX welcomes strategic conversations with governments,
+          insurers and healthcare organizations.
+        </p>
 
-<h2>Request Strategic Meeting</h2>
-<form action="https://formspree.io/f/mpqyqvrl" method="POST" class="contact-form">
-  <input type="text" name="name" placeholder="Full Name" required>
-  <input type="text" name="organization" placeholder="Organization" required>
-  <input type="text" name="country" placeholder="Country" required>
+        <form action="https://formspree.io/f/mpqyqvrl" method="POST" class="contact-form">
+          <input type="text" name="name" placeholder="Full Name" required>
+          <input type="text" name="organization" placeholder="Organization" required>
 
-  <select name="organization_type" required>
-    <option value="">Organization Type</option>
-    <option value="Government">Government</option>
-    <option value="Insurance Company">Insurance Company</option>
-    <option value="Hospital / Health System">Hospital / Health System</option>
-    <option value="Healthcare Provider">Healthcare Provider</option>
-    <option value="Other">Other</option>
-  </select>
+          <input type="text" name="country" placeholder="Country" required>
+          <select name="organization_type" required>
+            <option value="">Organization Type</option>
+            <option value="Government">Government</option>
+            <option value="Insurance Company">Insurance Company</option>
+            <option value="Hospital / Health System">Hospital / Health System</option>
+            <option value="Healthcare Provider">Healthcare Provider</option>
+            <option value="Other">Other</option>
+          </select>
 
-  <input type="email" name="email" placeholder="Email" required>
-  <input type="tel" name="phone" placeholder="Phone (include country code)" required>
-  <textarea name="message" placeholder="Message" rows="5" required></textarea>
+          <input class="full" type="email" name="email" placeholder="Email" required>
+          <input class="full" type="tel" name="phone" placeholder="Phone (include country code)" required>
+          <textarea class="full" name="message" placeholder="Message" required></textarea>
 
-  <button type="submit">Send Request</button>
-</form>
-  <div class="section">
+          <button type="submit">Send Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
 
-
-</div>
-<div class="footer">
-
-© 2026 MediMetaX™ — Global Health Data Infrastructure. All rights reserved.
-
-</div>
+  <div class="footer">
+    <div class="container">
+      <p>© 2026 MediMetaX™ — Digital Health Infrastructure. All rights reserved.</p>
+    </div>
+  </div>
 
 </body>
 </html>
