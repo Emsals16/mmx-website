@@ -50,6 +50,47 @@ padding:40px;
 font-size:14px;
 color:#888;
 }
+  .contact-form{
+max-width:700px;
+margin:30px auto 0 auto;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea{
+width:100%;
+padding:14px 16px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #333;
+background:#111;
+color:white;
+box-sizing:border-box;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder{
+color:#888;
+}
+
+.contact-form select{
+color:#aaa;
+}
+
+.contact-form button{
+margin-top:10px;
+padding:14px 30px;
+font-size:16px;
+background:#facc15;
+border:none;
+border-radius:10px;
+cursor:pointer;
+color:black;
+font-weight:600;
+}
 </style>
 
 </head>
@@ -67,7 +108,26 @@ Digital infrastructure connecting governments, insurers and healthcare providers
 through secure, interoperable and traceable health data systems.
 </p>
 
-<button>Request Strategic Meeting</button>
+<form action="https://formspree.io/f/mpqyqvrl" method="POST" class="contact-form">
+  <input type="text" name="name" placeholder="Full Name" required>
+  <input type="text" name="organization" placeholder="Organization" required>
+  <input type="text" name="country" placeholder="Country" required>
+
+  <select name="organization_type" required>
+    <option value="">Organization Type</option>
+    <option value="Government">Government</option>
+    <option value="Insurance Company">Insurance Company</option>
+    <option value="Hospital / Health System">Hospital / Health System</option>
+    <option value="Healthcare Provider">Healthcare Provider</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="tel" name="phone" placeholder="Phone (include country code)" required>
+  <textarea name="message" placeholder="Message" rows="5" required></textarea>
+
+  <button type="submit">Send Request</button>
+</form>
 
 </div>
 
